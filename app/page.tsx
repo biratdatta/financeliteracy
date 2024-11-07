@@ -66,7 +66,7 @@ const GamePage: React.FC = () => {
         </div>
       ) : (
         <div className="text-center p-6 bg-white text-gray-800 rounded-lg shadow-lg max-w-lg">
-          <h2 className="text-2xl font-bold mb-2">Game Finished!</h2>
+          <h2 className="text-2xl font-bold mb-2">Check your scores</h2>
           <p className="mb-4">Your score: {score}/{questions.length}</p>
           <p className="text-xl font-semibold mb-4">Literacy Level: {literacyLevel.title}</p>
           <div className="text-left mb-4">
