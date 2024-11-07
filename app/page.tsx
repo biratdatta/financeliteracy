@@ -41,18 +41,28 @@ const GamePage: React.FC = () => {
   })();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 text-white p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-6">
       {!isGameFinished ? (
-        <div className="w-full max-w-lg p-4 bg-white text-gray-800 rounded-lg shadow-lg">
+        <div className="w-full max-w-xl bg-white text-gray-800 rounded-lg shadow-lg p-6 space-y-4">
           <div className="text-center mb-4">
-            <h2 className="text-xl font-semibold">Question {currentQuestion + 1} of {questions.length}</h2>
+            <h2 className="text-2xl font-bold text-indigo-600">
+              Question {currentQuestion + 1} of {questions.length}
+            </h2>
+            <div className="h-2 bg-gray-200 rounded-full mt-2">
+              <div
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                className="h-2 bg-indigo-600 rounded-full transition-all duration-500"
+              ></div>
+            </div>
           </div>
+
           <Question
             questionText={questions[currentQuestion].question}
             onAnswer={handleAnswer}
             correctAnswer={questions[currentQuestion].correctAnswer}
           />
-          <div className="mt-4 flex justify-between items-center">
+
+          <div className="mt-6 flex justify-between items-center">
             {currentQuestion > 0 && (
               <button
                 onClick={goBack}
@@ -61,17 +71,17 @@ const GamePage: React.FC = () => {
                 Go Back
               </button>
             )}
-            <p className="text-gray-500">{questions.length - (currentQuestion + 1)} questions remaining</p>
+            <p className="text-indigo-500">{questions.length - (currentQuestion + 1)} questions remaining</p>
           </div>
         </div>
       ) : (
-        <div className="text-center p-6 bg-white text-gray-800 rounded-lg shadow-lg max-w-lg">
-          <h2 className="text-2xl font-bold mb-2">Check your scores</h2>
-          <p className="mb-4">Your score: {score}/{questions.length}</p>
-          <p className="text-xl font-semibold mb-4">Literacy Level: {literacyLevel.title}</p>
-          <div className="text-left mb-4">
-            <h3 className="font-semibold">What to Do Next:</h3>
-            <ul className="list-disc list-inside mt-2 space-y-2">
+        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg p-8 space-y-6">
+          <h2 className="text-3xl font-bold text-indigo-600">Game Finished!</h2>
+          <p className="text-2xl font-semibold">Your score: {score}/{questions.length}</p>
+          <p className="text-xl font-semibold text-indigo-700">Literacy Level: {literacyLevel.title}</p>
+          <div className="text-left mt-4">
+            <h3 className="font-semibold text-lg text-gray-700">What to Do Next:</h3>
+            <ul className="list-disc list-inside mt-2 space-y-2 text-gray-600">
               {literacyLevel.suggestions.map((suggestion, index) => (
                 <li key={index}>{suggestion}</li>
               ))}
@@ -79,7 +89,7 @@ const GamePage: React.FC = () => {
           </div>
           <button
             onClick={retryGame}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors"
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95"
           >
             Retry
           </button>
