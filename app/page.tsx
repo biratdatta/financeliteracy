@@ -1,20 +1,29 @@
  "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
+import { FaCheckCircle, FaMapMarkerAlt, FaRedo } from "react-icons/fa";
+import { MdSchool } from "react-icons/md";
 
 const GamePage: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const [isIntroVisible, setIsIntroVisible] = useState(true);
+  const [country, setCountry] = useState("");
+  const [literacyLevel, setLiteracyLevel] = useState(literacyFeedback.low);
+  const [literacyScore, setLiteracyScore] = useState("0.00");
 
   const startGame = () => {
-    setIsIntroVisible(false);
+    if (country.trim() !== "") {
+      setIsIntroVisible(false);
+    } else {
+      alert("Please enter your country to start.");
+    }
   };
 
   const handleAnswer = (isCorrect: boolean) => {
-    if (isCorrect) setScore(score + 1);
+    if (isCorrect) setScore((prevScore) => prevScore + 1);
 
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < questions.length) {
@@ -27,7 +36,7 @@ const GamePage: React.FC = () => {
   const goBack = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setScore(score > 0 ? score - 1 : 0);
+      setScore((prevScore) => (prevScore > 0 ? prevScore - 1 : 0));
     }
   };
 
@@ -36,35 +45,52 @@ const GamePage: React.FC = () => {
     setScore(0);
     setIsGameFinished(false);
     setIsIntroVisible(true);
+    setCountry("");
   };
 
-  const literacyLevel = (() => {
-    const literacyScore = score / questions.length;
-    if (literacyScore <= 0.25) return literacyFeedback.low;
-    if (literacyScore <= 0.5) return literacyFeedback.basic;
-    if (literacyScore <= 0.75) return literacyFeedback.moderate;
-    return literacyFeedback.high;
-  })();
+  // Update literacy level and score dynamically
+  useEffect(() => {
+    const literacyScoreDecimal = (score / questions.length).toFixed(2);
+    setLiteracyScore(literacyScoreDecimal);
+
+    const literacyLevel =
+      score / questions.length <= 0.25
+        ? literacyFeedback.low
+        : score / questions.length <= 0.5
+        ? literacyFeedback.basic
+        : score / questions.length <= 0.75
+        ? literacyFeedback.moderate
+        : literacyFeedback.high;
+
+    setLiteracyLevel(literacyLevel);
+  }, [score, currentQuestion]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-4 sm:p-6">
       {isIntroVisible ? (
-        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg p-8 space-y-6">
-          <h2 className="text-3xl font-bold text-indigo-600"> Empower your financial future </h2>
-          <p className="text-lg text-gray-700">
+        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600"> Empower your financial future </h2>
+          <p className="text-md sm:text-lg text-gray-700">
             Test your knowledge and receive personalized feedback to help improve your financial literacy level.
           </p>
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            placeholder="Enter your country"
+            className="w-full p-2 border rounded mt-4 text-gray-800"
+          />
           <button
             onClick={startGame}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95"
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
           >
-            Lets Get Started
+            Let's Get Started
           </button>
         </div>
       ) : !isGameFinished ? (
-        <div className="w-full max-w-xl bg-white text-gray-800 rounded-lg shadow-lg p-6 space-y-4">
+        <div className="w-full max-w-xl bg-white text-gray-800 rounded-lg shadow-lg p-4 sm:p-6 space-y-4">
           <div className="text-center mb-4">
-            <h2 className="text-2xl font-bold text-indigo-600">
+            <h2 className="text-xl sm:text-2xl font-bold text-indigo-600">
               Question {currentQuestion + 1} of {questions.length}
             </h2>
             <div className="h-2 bg-gray-200 rounded-full mt-2">
@@ -94,18 +120,40 @@ const GamePage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg p-8 space-y-6">
-          <h2 className="text-3xl font-bold text-indigo-600">Finished!</h2>
-          <p className="text-2xl font-semibold">Your score: {score}/{questions.length}</p>
-          <p className="text-xl font-semibold text-indigo-700">Literacy Level: {literacyLevel.title}</p>
+        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600 flex items-center justify-center space-x-2">
+            <FaCheckCircle className="text-green-500" /> <span>Finished!</span>
+          </h2>
+          
+          <p className="text-xl sm:text-2xl font-semibold flex items-center justify-center space-x-2">
+            <MdSchool className="text-indigo-500" /> 
+            <span>Your score: {literacyScore}</span>
+          </p>
+          
+          <p className="text-lg sm:text-xl font-semibold text-indigo-700 flex items-center justify-center space-x-2">
+            <MdSchool className="text-indigo-700" /> 
+            <span>Literacy Level: {literacyLevel.title}</span>
+          </p>
+          
+          <p className="text-md sm:text-lg text-gray-600 flex items-center justify-center space-x-2">
+            <FaMapMarkerAlt className="text-red-500" /> 
+            <span>Country: {country}</span>
+          </p>
+          
           <div className="text-left mt-4">
             <h3 className="font-semibold text-lg text-gray-700">What to Do Next:</h3>
-            <ul className="list-disc list-inside mt-2 space-y-2 text-gray-600">
+            <div className="grid gap-4 mt-4">
               {literacyLevel.suggestions.map((suggestion, index) => (
-                <li key={index}>{suggestion}</li>
+                <div
+                  key={index}
+                  className="flex items-start bg-indigo-50 p-4 rounded-lg shadow-md hover:bg-indigo-100 transition-colors duration-300"
+                >
+                  <p className="text-gray-800 text-justify">{suggestion}</p>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
+          
           <button
             onClick={retryGame}
             className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95"
