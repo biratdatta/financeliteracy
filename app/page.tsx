@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
-import { FaCheckCircle, FaMapMarkerAlt, FaRedo } from "react-icons/fa";
+import { FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdSchool } from "react-icons/md";
 
 const GamePage: React.FC = () => {
@@ -84,7 +84,7 @@ const GamePage: React.FC = () => {
             onClick={startGame}
             className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
           >
-            Let's Get Started
+            Lets Get Started
           </button>
         </div>
       ) : !isGameFinished ? (
