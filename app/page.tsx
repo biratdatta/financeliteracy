@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 import { useState } from "react";
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
@@ -7,6 +7,11 @@ const GamePage: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const [isIntroVisible, setIsIntroVisible] = useState(true);
+
+  const startGame = () => {
+    setIsIntroVisible(false);
+  };
 
   const handleAnswer = (isCorrect: boolean) => {
     if (isCorrect) setScore(score + 1);
@@ -22,7 +27,7 @@ const GamePage: React.FC = () => {
   const goBack = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setScore(score > 0 ? score - 1 : 0); // Adjust score if going back from a correct answer
+      setScore(score > 0 ? score - 1 : 0);
     }
   };
 
@@ -30,6 +35,7 @@ const GamePage: React.FC = () => {
     setCurrentQuestion(0);
     setScore(0);
     setIsGameFinished(false);
+    setIsIntroVisible(true);
   };
 
   const literacyLevel = (() => {
@@ -42,7 +48,20 @@ const GamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-6">
-      {!isGameFinished ? (
+      {isIntroVisible ? (
+        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg p-8 space-y-6">
+          <h2 className="text-3xl font-bold text-indigo-600"> Empower your financial future </h2>
+          <p className="text-lg text-gray-700">
+            Test your knowledge and receive personalized feedback to help improve your financial literacy level.
+          </p>
+          <button
+            onClick={startGame}
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95"
+          >
+            Lets Get Started
+          </button>
+        </div>
+      ) : !isGameFinished ? (
         <div className="w-full max-w-xl bg-white text-gray-800 rounded-lg shadow-lg p-6 space-y-4">
           <div className="text-center mb-4">
             <h2 className="text-2xl font-bold text-indigo-600">
@@ -76,7 +95,7 @@ const GamePage: React.FC = () => {
         </div>
       ) : (
         <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg p-8 space-y-6">
-          <h2 className="text-3xl font-bold text-indigo-600">Game Finished!</h2>
+          <h2 className="text-3xl font-bold text-indigo-600">Finished!</h2>
           <p className="text-2xl font-semibold">Your score: {score}/{questions.length}</p>
           <p className="text-xl font-semibold text-indigo-700">Literacy Level: {literacyLevel.title}</p>
           <div className="text-left mt-4">
