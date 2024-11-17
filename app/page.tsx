@@ -13,6 +13,8 @@ const GamePage: React.FC = () => {
   const [country, setCountry] = useState("");
   const [literacyLevel, setLiteracyLevel] = useState(literacyFeedback.low);
   const [literacyScore, setLiteracyScore] = useState("0.00");
+  const [currentPage, setCurrentPage] = useState(0);
+  const suggestionsPerPage = 3;
 
   const startGame = () => {
     if (country.trim() !== "") {
@@ -46,9 +48,21 @@ const GamePage: React.FC = () => {
     setIsGameFinished(false);
     setIsIntroVisible(true);
     setCountry("");
+    setCurrentPage(0);
   };
 
-  // Update literacy level and score dynamically
+  const nextPage = () => {
+    if ((currentPage + 1) * suggestionsPerPage < literacyLevel.suggestions.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const previousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   useEffect(() => {
     const literacyScoreDecimal = (score / questions.length).toFixed(2);
     setLiteracyScore(literacyScoreDecimal);
@@ -64,6 +78,13 @@ const GamePage: React.FC = () => {
 
     setLiteracyLevel(literacyLevel);
   }, [score, currentQuestion]);
+
+  const getCurrentPageSuggestions = () => {
+    const startIndex = currentPage * suggestionsPerPage;
+    return literacyLevel.suggestions.slice(startIndex, startIndex + suggestionsPerPage);
+  };
+
+  const totalPages = Math.ceil(literacyLevel.suggestions.length / suggestionsPerPage);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-4 sm:p-6">
@@ -130,7 +151,7 @@ const GamePage: React.FC = () => {
 
           <p className="text-xl sm:text-2xl font-semibold flex items-center justify-center space-x-2">
             <MdSchool className="text-indigo-500" />
-            <span>Your score {literacyScore} out of 1.00</span>
+            <span>Your score is {literacyScore} out of 1.00</span>
           </p>
 
           <p className="text-lg sm:text-xl font-semibold text-indigo-700 flex items-center justify-center space-x-2">
@@ -143,58 +164,82 @@ const GamePage: React.FC = () => {
             <span>Country: {country}</span>
           </p>
 
-
-
           <div className="text-left mt-4">
             <h3 className="font-semibold text-lg text-gray-700 mb-6 text-center">
               <span className="text-indigo-600">What to Do Next:</span>
             </h3>
-        <div className="relative flex flex-col items-center gap-8">
-  {literacyLevel.suggestions.map((suggestion, index) => (
-    <div key={index} className="relative flex flex-col items-center">
-      <div
-        className={`flex items-center justify-center w-full max-w-md p-4 rounded-lg shadow-lg bg-gradient-to-br ${
-         index % 4 === 0
-            ? "from-green-400 to-green-600"
-            : index % 4 === 1
-            ? "from-purple-400 to-purple-600"
-            : index % 4 === 2
-            ? "from-orange-400 to-orange-600"
-            : "from-blue-400 to-blue-600"
-        } text-white text-center`}
-      >
-        {suggestion}
-      </div>
-      {index < literacyLevel.suggestions.length - 1 && (
-        <div className="flex items-center justify-center w-4 h-6 text-teal-500">
-      <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 2"
-            strokeWidth={3}
-            stroke="currentColor"
-            className="w-16 h-16 "
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 5v14m0 0l-7-7m7 7l7-7"
-            />
-          </svg>
-        </div>
-      )}
-    </div>
-  ))}
-</div>
+            <div className="relative flex flex-col items-center gap-8">
+              {getCurrentPageSuggestions().map((suggestion, index) => (
+                <div key={index} className="relative flex flex-col items-center">
+                  <div
+                    className={`flex items-center justify-center w-full max-w-md p-4 rounded-lg shadow-lg bg-gradient-to-br ${
+                      index % 4 === 0
+                        ? "from-green-400 to-green-600"
+                        : index % 4 === 1
+                        ? "from-purple-400 to-purple-600"
+                        : index % 4 === 2
+                        ? "from-orange-400 to-orange-600"
+                        : "from-blue-400 to-blue-600"
+                    } text-white text-center`}
+                  >
+                    {suggestion}
+                  </div>
+                  {index < getCurrentPageSuggestions().length - 1 && (
+                    <div className="flex items-center justify-center w-4 h-6 text-teal-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 2"
+                        strokeWidth={3}
+                        stroke="currentColor"
+                        className="w-16 h-16"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 5v14m0 0l-7-7m7 7l7-7"
+                        />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
 
-
+            <div className="flex justify-center space-x-4 mt-6">
+              <button
+                onClick={previousPage}
+                disabled={currentPage === 0}
+                className={`px-4 py-2 rounded ${
+                  currentPage === 0
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-indigo-500 hover:bg-indigo-600"
+                } text-white font-semibold transition-colors`}
+              >
+                Previous
+              </button>
+              <span className="text-gray-600 flex items-center">
+                Page {currentPage + 1} of {totalPages}
+              </span>
+              <button
+                onClick={nextPage}
+                disabled={(currentPage + 1) * suggestionsPerPage >= literacyLevel.suggestions.length}
+                className={`px-4 py-2 rounded ${
+                  (currentPage + 1) * suggestionsPerPage >= literacyLevel.suggestions.length
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-indigo-500 hover:bg-indigo-600"
+                } text-white font-semibold transition-colors`}
+              >
+                Next
+              </button>
+            </div>
           </div>
 
           <button
             onClick={retryGame}
             className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
           >
-            Retry Quiz
+            Retry
           </button>
         </div>
       )}
