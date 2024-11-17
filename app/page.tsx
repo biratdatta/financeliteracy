@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import { useState, useEffect } from "react";
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
@@ -69,7 +69,9 @@ const GamePage: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-4 sm:p-6">
       {isIntroVisible ? (
         <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600"> Empower your fintech and financial future </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600">
+            Empower your fintech and financial future
+          </h2>
           <p className="text-md sm:text-lg text-gray-700">
             Test your knowledge and receive personalized feedback to help improve your financial literacy level.
           </p>
@@ -93,7 +95,7 @@ const GamePage: React.FC = () => {
             <h2 className="text-xl sm:text-2xl font-bold text-indigo-600">
               Statement {currentQuestion + 1} of {questions.length}
             </h2>
-            <p> Please indicate whether the statements are True or False </p>
+            <p>Please indicate whether the statements are True or False</p>
             <div className="h-2 bg-gray-200 rounded-full mt-2">
               <div
                 style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
@@ -125,41 +127,74 @@ const GamePage: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600 flex items-center justify-center space-x-2">
             <FaCheckCircle className="text-green-500" /> <span>Finished!</span>
           </h2>
-          
+
           <p className="text-xl sm:text-2xl font-semibold flex items-center justify-center space-x-2">
-            <MdSchool className="text-indigo-500" /> 
+            <MdSchool className="text-indigo-500" />
             <span>Your score {literacyScore} out of 1.00</span>
           </p>
-          
+
           <p className="text-lg sm:text-xl font-semibold text-indigo-700 flex items-center justify-center space-x-2">
-            <MdSchool className="text-indigo-700" /> 
+            <MdSchool className="text-indigo-700" />
             <span>Literacy Level: {literacyLevel.title}</span>
           </p>
-          
+
           <p className="text-md sm:text-lg text-gray-600 flex items-center justify-center space-x-2">
-            <FaMapMarkerAlt className="text-red-500" /> 
+            <FaMapMarkerAlt className="text-red-500" />
             <span>Country: {country}</span>
           </p>
-          
+
+
+
           <div className="text-left mt-4">
-            <h3 className="font-semibold text-lg text-gray-700">What to Do Next:</h3>
-            <div className="grid gap-4 mt-4">
-              {literacyLevel.suggestions.map((suggestion, index) => (
-                <div
-                  key={index}
-                  className="flex items-start bg-indigo-50 p-4 rounded-lg shadow-md hover:bg-indigo-100 transition-colors duration-300"
-                >
-                  <p className="text-gray-800 text-justify">{suggestion}</p>
-                </div>
-              ))}
-            </div>
+            <h3 className="font-semibold text-lg text-gray-700 mb-6 text-center">
+              <span className="text-indigo-600">What to Do Next:</span>
+            </h3>
+        <div className="relative flex flex-col items-center gap-8">
+  {literacyLevel.suggestions.map((suggestion, index) => (
+    <div key={index} className="relative flex flex-col items-center">
+      <div
+        className={`flex items-center justify-center w-full max-w-md p-4 rounded-lg shadow-lg bg-gradient-to-br ${
+         index % 4 === 0
+            ? "from-green-400 to-green-600"
+            : index % 4 === 1
+            ? "from-purple-400 to-purple-600"
+            : index % 4 === 2
+            ? "from-orange-400 to-orange-600"
+            : "from-blue-400 to-blue-600"
+        } text-white text-center`}
+      >
+        {suggestion}
+      </div>
+      {index < literacyLevel.suggestions.length - 1 && (
+        <div className="flex items-center justify-center w-4 h-6 text-teal-500">
+      <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 2"
+            strokeWidth={3}
+            stroke="currentColor"
+            className="w-16 h-16 "
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 5v14m0 0l-7-7m7 7l7-7"
+            />
+          </svg>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+
+
           </div>
-          
+
           <button
             onClick={retryGame}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95"
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
           >
-            Retry
+            Retry Quiz
           </button>
         </div>
       )}
