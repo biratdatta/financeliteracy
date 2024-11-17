@@ -21,28 +21,28 @@ export const literacyFeedback = {
   low: {
     title: "Low Literacy",
     suggestions: [
-      "For individuals with low literacy in fintech and investment, starting with basic financial literacy courses is essential. These can be found at local community centers, libraries, or online platforms like Coursera or Khan Academy. Attending workshops and seminars on fundamental financial concepts and budgeting can also be beneficial. Additionally, reading beginner-friendly books such as “Personal Finance for Dummies” by Eric Tyson can provide a solid foundation. ",
+      "In fintech and investment, starting with basic financial literacy courses is essential. These can be found at local community centers, libraries, or online platforms like Coursera or Khan Academy. Attending workshops and seminars on fundamental financial concepts and budgeting can also be beneficial. Additionally, reading beginner-friendly books such as “Personal Finance for Dummies” by Eric Tyson can provide a solid foundation. ",
       " At this level, focusing on building an emergency fund in a savings account is a prudent first step. It’s important to learn the basics of financial concepts like interest rates, inflation, and the significance of regular saving. This foundational knowledge will prepare individuals for more advanced financial decisions in the future."
     ],
   },
   basic: {
     title: "Basic Literacy",
     suggestions: [
-      "Those with basic literacy should consider intermediate financial literacy courses that cover topics like credit management, basic investing, and retirement planning. Online resources such as Investopedia offer valuable articles and tutorials. Utilizing financial apps like Mint or YNAB (You Need A Budget) can also help manage finances and provide educational content.",
+      "You should consider intermediate financial literacy courses that cover topics like credit management, basic investing, and retirement planning. Online resources such as Investopedia offer valuable articles and tutorials. Utilizing financial apps like Mint or YNAB (You Need A Budget) can also help manage finances and provide educational content.",
       " Opening a retirement account, such as an IRA or 401(k), is a good step at this stage. Diversifying savings by exploring low-risk investment options like certificates of deposit (CDs) or government bonds can also enhance financial security and growth."
     ],
   },
   moderate: {
     title: "Moderate Literacy",
     suggestions: [
-      " For those with moderate literacy, advanced financial literacy courses on investing, stock market analysis, and financial planning are recommended. Following financial experts through webinars and podcasts can keep individuals updated on market trends and strategies. Using stock market simulators to practice trading without real financial risk can also be very beneficial.",
+      "Advanced financial literacy courses on investing, stock market analysis, and financial planning are recommended. Following financial experts through webinars and podcasts can keep individuals updated on market trends and strategies. Using stock market simulators to practice trading without real financial risk can also be very beneficial.",
       " At this level, diversifying an investment portfolio with a mix of stocks, bonds, and mutual funds is advisable. Consulting a certified financial planner can help refine investment strategies and ensure they align with personal financial goals."
     ],
   },
   high: {
     title: "High Literacy",
     suggestions: [
-      " Individuals with high literacy should consider pursuing specialized certifications like the Chartered Financial Analyst (CFA) or Certified Financial Planner (CFP) for in-depth knowledge. Attending advanced workshops on topics such as options trading, real estate investment, and international markets can further enhance expertise. Joining professional financial networks and forums can also provide valuable insights and keep individuals informed about the latest developments.",
+      "  You should consider pursuing specialized certifications like the Chartered Financial Analyst (CFA) or Certified Financial Planner (CFP) for in-depth knowledge. Attending advanced workshops on topics such as options trading, real estate investment, and international markets can further enhance expertise. Joining professional financial networks and forums can also provide valuable insights and keep individuals informed about the latest developments.",
       " xploring more complex investment vehicles like ETFs, REITs (Real Estate Investment Trusts), and cryptocurrencies can be appropriate for those with high literacy. Continuously reviewing and optimizing the investment portfolio based on performance and market conditions is crucial. Additionally, sharing knowledge by mentoring others at lower literacy levels can be a rewarding way to give back and reinforce one’s own understanding."
     ],
   },

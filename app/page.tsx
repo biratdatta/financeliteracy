@@ -69,7 +69,7 @@ const GamePage: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-4 sm:p-6">
       {isIntroVisible ? (
         <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600"> Empower your financial future </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600"> Empower your fintech and financial future </h2>
           <p className="text-md sm:text-lg text-gray-700">
             Test your knowledge and receive personalized feedback to help improve your financial literacy level.
           </p>
@@ -91,8 +91,9 @@ const GamePage: React.FC = () => {
         <div className="w-full max-w-xl bg-white text-gray-800 rounded-lg shadow-lg p-4 sm:p-6 space-y-4">
           <div className="text-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-indigo-600">
-              Question {currentQuestion + 1} of {questions.length}
+              Statement {currentQuestion + 1} of {questions.length}
             </h2>
+            <p> Please indicate whether the statements are True or False </p>
             <div className="h-2 bg-gray-200 rounded-full mt-2">
               <div
                 style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
@@ -116,7 +117,7 @@ const GamePage: React.FC = () => {
                 Go Back
               </button>
             )}
-            <p className="text-indigo-500">{questions.length - (currentQuestion + 1)} questions remaining</p>
+            <p className="text-indigo-500">{questions.length - (currentQuestion + 1)} statement remaining</p>
           </div>
         </div>
       ) : (
@@ -127,7 +128,7 @@ const GamePage: React.FC = () => {
           
           <p className="text-xl sm:text-2xl font-semibold flex items-center justify-center space-x-2">
             <MdSchool className="text-indigo-500" /> 
-            <span>Your score: {literacyScore}</span>
+            <span>Your score {literacyScore} out of 1.00</span>
           </p>
           
           <p className="text-lg sm:text-xl font-semibold text-indigo-700 flex items-center justify-center space-x-2">
