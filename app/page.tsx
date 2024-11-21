@@ -140,7 +140,7 @@ const GamePage: React.FC = () => {
                 Go Back
               </button>
             )}
-            <p className="text-indigo-500">{questions.length - (currentQuestion + 1)} statement remaining</p>
+            <p className="text-indigo-500">{questions.length - (currentQuestion + 1)} statements remaining</p>
           </div>
         </div>
       ) : (
