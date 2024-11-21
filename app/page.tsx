@@ -186,7 +186,7 @@ const GamePage: React.FC = () => {
                   </div>
                   {index < getCurrentPageSuggestions().length - 1 && (
                     <div className="flex items-center justify-center w-4 h-6 text-teal-500">
-                      <svg
+                      {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 2"
@@ -199,7 +199,7 @@ const GamePage: React.FC = () => {
                           strokeLinejoin="round"
                           d="M12 5v14m0 0l-7-7m7 7l7-7"
                         />
-                      </svg>
+                      </svg> */}
                     </div>
                   )}
                 </div>
