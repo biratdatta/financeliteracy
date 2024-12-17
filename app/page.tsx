@@ -1,9 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"; // Chart.js components
+
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
 import { FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdSchool } from "react-icons/md";
+ChartJS.register(ArcElement, Tooltip, Legend); 
 
 const GamePage: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -86,8 +90,21 @@ const GamePage: React.FC = () => {
 
   const totalPages = Math.ceil(literacyLevel.suggestions.length / suggestionsPerPage);
 
+
+  const pieChartData = {
+    labels: ["Correct Answers", "Incorrect Answers"],
+    datasets: [
+      {
+        data: [score, questions.length - score],
+        backgroundColor: ["#4CAF50", "#F44336"], // Green for correct, Red for incorrect
+        hoverBackgroundColor: ["#66BB6A", "#E57373"],
+      },
+    ],
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-4 sm:p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#d9a7c7] to-[#fffcdc] text-white p-4 sm:p-6">
+
       {isIntroVisible ? (
         <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600">
@@ -153,7 +170,9 @@ const GamePage: React.FC = () => {
             <MdSchool className="text-indigo-500" />
             <span>Your score is {literacyScore} out of 1.00</span>
           </p>
-
+   <div className="flex justify-center items-center">
+            <Pie data={pieChartData} />
+          </div>
           <p className="text-lg sm:text-xl font-semibold text-indigo-700 flex items-center justify-center space-x-2">
             <MdSchool className="text-indigo-700" />
             <span>Literacy Level: {literacyLevel.title}</span>
@@ -241,10 +260,19 @@ const GamePage: React.FC = () => {
           >
             Retry
           </button>
+<br/>
+    <button
+  onClick={() => window.open("https://university.taylors.edu.my/en.html", "_blank")}
+  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
+>
+  Check some Educational Content here
+</button>
+
+
         </div>
       )}
     </div>
   );
 };
 
-export default GamePage;
+export default GamePage
