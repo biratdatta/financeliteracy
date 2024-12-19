@@ -5,9 +5,9 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"; // Cha
 
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
-import { FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
+import { FaCheckCircle, FaPiggyBank, FaMapMarkerAlt, FaMoneyBillWave, FaChartLine, FaUniversity } from "react-icons/fa";
 import { MdSchool } from "react-icons/md";
-ChartJS.register(ArcElement, Tooltip, Legend); 
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const GamePage: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -27,6 +27,20 @@ const GamePage: React.FC = () => {
       alert("Please enter your country to start.");
     }
   };
+
+  const getIconForIndex = (index: number) => {
+  // Select icons based on index
+  switch (index % 4) {
+    case 0:
+      return <FaPiggyBank className="text-green-500 w-10 h-10" />;
+    case 1:
+      return <FaMoneyBillWave className="text-purple-500 w-10 h-10" />;
+    case 2:
+      return <FaChartLine className="text-orange-500 w-10 h-10" />;
+    default:
+      return <FaUniversity className="text-blue-500 w-10 h-10" />;
+  }
+};
 
   const handleAnswer = (isCorrect: boolean) => {
     if (isCorrect) setScore((prevScore) => prevScore + 1);
@@ -90,7 +104,6 @@ const GamePage: React.FC = () => {
 
   const totalPages = Math.ceil(literacyLevel.suggestions.length / suggestionsPerPage);
 
-
   const pieChartData = {
     labels: ["Correct Answers", "Incorrect Answers"],
     datasets: [
@@ -104,7 +117,6 @@ const GamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#d9a7c7] to-[#fffcdc] text-white p-4 sm:p-6">
-
       {isIntroVisible ? (
         <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600">
@@ -141,13 +153,11 @@ const GamePage: React.FC = () => {
               ></div>
             </div>
           </div>
-
           <Question
             questionText={questions[currentQuestion].question}
             onAnswer={handleAnswer}
             correctAnswer={questions[currentQuestion].correctAnswer}
           />
-
           <div className="mt-6 flex justify-between items-center">
             {currentQuestion > 0 && (
               <button
@@ -165,17 +175,15 @@ const GamePage: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600 flex items-center justify-center space-x-2">
             <FaCheckCircle className="text-green-500" /> <span>Finished!</span>
           </h2>
-
           <p className="text-xl sm:text-2xl font-semibold flex items-center justify-center space-x-2">
             <MdSchool className="text-indigo-500" />
             <span>Your score is {literacyScore} out of 1.00</span>
           </p>
-   <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center">
             <Pie data={pieChartData} />
           </div>
-          <p className="text-lg sm:text-xl font-semibold text-indigo-700 flex items-center justify-center space-x-2">
-            <MdSchool className="text-indigo-700" />
-            <span>Literacy Level: {literacyLevel.title}</span>
+          <p className="text-lg sm:text-xl font-semibold text-indigo-700">
+            Literacy Level: {literacyLevel.title}
           </p>
 
           <p className="text-md sm:text-lg text-gray-600 flex items-center justify-center space-x-2">
@@ -187,43 +195,30 @@ const GamePage: React.FC = () => {
             <h3 className="font-semibold text-lg text-gray-700 mb-6 text-center">
               <span className="text-indigo-600">What to Do Next:</span>
             </h3>
-            <div className="relative flex flex-col items-center gap-8">
-              {getCurrentPageSuggestions().map((suggestion, index) => (
-                <div key={index} className="relative flex flex-col items-center">
-                  <div
-                    className={`flex items-center justify-center w-full max-w-md p-4 rounded-lg shadow-lg bg-gradient-to-br ${
-                      index % 4 === 0
-                        ? "from-green-400 to-green-600"
-                        : index % 4 === 1
-                        ? "from-purple-400 to-purple-600"
-                        : index % 4 === 2
-                        ? "from-orange-400 to-orange-600"
-                        : "from-blue-400 to-blue-600"
-                    } text-white text-center`}
-                  >
-                    {suggestion}
-                  </div>
-                  {index < getCurrentPageSuggestions().length - 1 && (
-                    <div className="flex items-center justify-center w-4 h-6 text-teal-500">
-                      {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 2"
-                        strokeWidth={3}
-                        stroke="currentColor"
-                        className="w-16 h-16"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 5v14m0 0l-7-7m7 7l7-7"
-                        />
-                      </svg> */}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+   
+
+   <div className="relative flex flex-col items-center gap-8">
+  {getCurrentPageSuggestions().map((suggestion, index) => (
+    <a
+      key={index}
+      href="https://university.taylors.edu.my/en.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex items-center gap-4 justify-start w-full max-w-md p-4 rounded-lg shadow-lg bg-white border ${
+        index % 4 === 0
+          ? "border-green-500"
+          : index % 4 === 1
+          ? "border-purple-500"
+          : index % 4 === 2
+          ? "border-orange-500"
+          : "border-blue-500"
+      } transition-transform transform hover:scale-105`}
+    >
+      {getIconForIndex(index)}
+      <span className="text-gray-800 font-semibold">{suggestion}</span>
+    </a>
+  ))}
+</div>
 
             <div className="flex justify-center space-x-4 mt-6">
               <button
@@ -253,26 +248,23 @@ const GamePage: React.FC = () => {
               </button>
             </div>
           </div>
-
           <button
             onClick={retryGame}
             className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
           >
-            Retry
+            Retry the Game
           </button>
-<br/>
+          <br/>
     <button
   onClick={() => window.open("https://university.taylors.edu.my/en.html", "_blank")}
   className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
 >
   Check some Educational Content here
 </button>
-
-
         </div>
       )}
     </div>
   );
 };
 
-export default GamePage
+export default GamePage;
