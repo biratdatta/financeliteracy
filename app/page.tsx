@@ -2,11 +2,13 @@
 import { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"; // Chart.js components
+import Confetti from "react-confetti"; // Import Confetti for the sparkles effect
 
 import Question from "./components/Question";
 import { questions, literacyFeedback } from "./data";
-import { FaCheckCircle, FaPiggyBank, FaMapMarkerAlt, FaMoneyBillWave, FaChartLine, FaUniversity } from "react-icons/fa";
-import { MdSchool } from "react-icons/md";
+ import { FaCheckCircle, FaPiggyBank, FaMapMarkerAlt, FaMoneyBillWave, FaChartLine, FaUniversity, FaGlobe, FaArrowRight } from "react-icons/fa";
+ import { MdSchool, MdTrendingUp } from "react-icons/md";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const GamePage: React.FC = () => {
@@ -29,18 +31,18 @@ const GamePage: React.FC = () => {
   };
 
   const getIconForIndex = (index: number) => {
-  // Select icons based on index
-  switch (index % 4) {
-    case 0:
-      return <FaPiggyBank className="text-green-500 w-10 h-10" />;
-    case 1:
-      return <FaMoneyBillWave className="text-purple-500 w-10 h-10" />;
-    case 2:
-      return <FaChartLine className="text-orange-500 w-10 h-10" />;
-    default:
-      return <FaUniversity className="text-blue-500 w-10 h-10" />;
-  }
-};
+    // Select icons based on index
+    switch (index % 4) {
+      case 0:
+        return <FaPiggyBank className="text-green-500 w-10 h-10" />;
+      case 1:
+        return <FaMoneyBillWave className="text-purple-500 w-10 h-10" />;
+      case 2:
+        return <FaChartLine className="text-orange-500 w-10 h-10" />;
+      default:
+        return <FaUniversity className="text-blue-500 w-10 h-10" />;
+    }
+  };
 
   const handleAnswer = (isCorrect: boolean) => {
     if (isCorrect) setScore((prevScore) => prevScore + 1);
@@ -117,29 +119,84 @@ const GamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#d9a7c7] to-[#fffcdc] text-white p-4 sm:p-6">
-      {isIntroVisible ? (
-        <div className="text-center bg-white text-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 sm:p-8 space-y-4 sm:space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600">
-            Empower your fintech and financial future
-          </h2>
-          <p className="text-md sm:text-lg text-gray-700">
-            Test your knowledge and receive personalized feedback to help improve your financial literacy level.
-          </p>
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder="Enter your country"
-            className="w-full p-2 border rounded mt-4 text-gray-800"
-          />
-          <button
-            onClick={startGame}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
-          >
-            Lets Get Started
-          </button>
+      
+      {/* Confetti Effect */}
+      {isGameFinished && <Confetti width={window.innerWidth} height={window.innerHeight} numberOfPieces={500}/>}
+
+        {isIntroVisible ? (
+        <div className="text-center bg-white rounded-xl shadow-2xl max-w-2xl w-full p-8 space-y-8">
+          {/* Header Section */}
+          <div className="space-y-4">
+            <div className="flex justify-center">
+              <div className="bg-indigo-100 p-4 rounded-full">
+                <MdTrendingUp className="w-12 h-12 text-indigo-600" />
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Financial Literacy Quiz
+            </h1>
+            <p className="text-gray-600 text-lg max-w-md mx-auto">
+              Enhance your financial knowledge and get personalized insights to boost your financial literacy.
+            </p>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">
+            <div className="flex items-start space-x-4 bg-gray-50 p-4 rounded-lg">
+              <FaPiggyBank className="w-8 h-8 text-green-500 flex-shrink-0" />
+              <div className="text-left">
+                <h3 className="font-semibold text-gray-800">Test Your Knowledge</h3>
+                <p className="text-gray-600 text-sm">Answer questions about various financial concepts</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4 bg-gray-50 p-4 rounded-lg">
+              <FaChartLine className="w-8 h-8 text-blue-500 flex-shrink-0" />
+              <div className="text-left">
+                <h3 className="font-semibold text-gray-800">Get Insights</h3>
+                <p className="text-gray-600 text-sm">Receive detailed feedback on your financial literacy level</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4 bg-gray-50 p-4 rounded-lg">
+              <FaUniversity className="w-8 h-8 text-purple-500 flex-shrink-0" />
+              <div className="text-left">
+                <h3 className="font-semibold text-gray-800">Learn & Improve</h3>
+                <p className="text-gray-600 text-sm">Get personalized recommendations for improvement</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4 bg-gray-50 p-4 rounded-lg">
+              <FaGlobe className="w-8 h-8 text-orange-500 flex-shrink-0" />
+              <div className="text-left">
+                <h3 className="font-semibold text-gray-800">Global Perspective</h3>
+                <p className="text-gray-600 text-sm">Compare your knowledge with global standards</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Country Input */}
+          <div className="max-w-md mx-auto space-y-6">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <FaMapMarkerAlt className="text-gray-400 w-5 h-5" />
+              </div>
+              <input
+                type="text"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                placeholder="Enter your country"
+                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 placeholder-gray-400 transition-all duration-300"
+              />
+            </div>
+
+            <button
+              onClick={startGame}
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2"
+            >
+              <span>Start Your Journey</span>
+              <FaArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
-      ) : !isGameFinished ? (
+      ) :!isGameFinished ? (
         <div className="w-full max-w-xl bg-white text-gray-800 rounded-lg shadow-lg p-4 sm:p-6 space-y-4">
           <div className="text-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-indigo-600">
@@ -195,30 +252,29 @@ const GamePage: React.FC = () => {
             <h3 className="font-semibold text-lg text-gray-700 mb-6 text-center">
               <span className="text-indigo-600">What to Do Next:</span>
             </h3>
-   
 
-   <div className="relative flex flex-col items-center gap-8">
-  {getCurrentPageSuggestions().map((suggestion, index) => (
-    <a
-      key={index}
-      href="https://university.taylors.edu.my/en.html"
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`flex items-center gap-4 justify-start w-full max-w-md p-4 rounded-lg shadow-lg bg-white border ${
-        index % 4 === 0
-          ? "border-green-500"
-          : index % 4 === 1
-          ? "border-purple-500"
-          : index % 4 === 2
-          ? "border-orange-500"
-          : "border-blue-500"
-      } transition-transform transform hover:scale-105`}
-    >
-      {getIconForIndex(index)}
-      <span className="text-gray-800 font-semibold">{suggestion}</span>
-    </a>
-  ))}
-</div>
+            <div className="relative flex flex-col items-center gap-8">
+              {getCurrentPageSuggestions().map((suggestion, index) => (
+                <a
+                  key={index}
+                  href="https://university.taylors.edu.my/en.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-4 justify-start w-full max-w-md p-4 rounded-lg shadow-lg bg-white border ${
+                    index % 4 === 0
+                      ? "border-green-500"
+                      : index % 4 === 1
+                      ? "border-purple-500"
+                      : index % 4 === 2
+                      ? "border-orange-500"
+                      : "border-blue-500"
+                  } transition-transform transform hover:scale-105`}
+                >
+                  {getIconForIndex(index)}
+                  <span className="text-gray-800 font-semibold">{suggestion}</span>
+                </a>
+              ))}
+            </div>
 
             <div className="flex justify-center space-x-4 mt-6">
               <button
@@ -254,13 +310,13 @@ const GamePage: React.FC = () => {
           >
             Retry the Game
           </button>
-          <br/>
-    <button
-  onClick={() => window.open("https://university.taylors.edu.my/en.html", "_blank")}
-  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
->
-  Check some Educational Content here
-</button>
+          <br />
+          <button
+            onClick={() => window.open("https://university.taylors.edu.my/en.html", "_blank")}
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:scale-105 active:scale-95 mt-4"
+          >
+            Check some Educational Content here
+          </button>
         </div>
       )}
     </div>
